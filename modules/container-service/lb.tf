@@ -61,7 +61,7 @@ resource "aws_lb" "lb" {
 }
 
 resource "aws_lb_target_group" "lb-targetgroup" {
-  name                 = "${var.account}-lb-${var.env}-${var.system}-${var.app}-targetgroup"
+  name                 = "${var.account}-lb-${var.env}-${var.system}-${var.app}-tg"
   port                 = 3000
   protocol             = "HTTP"
   target_type          = "ip"
