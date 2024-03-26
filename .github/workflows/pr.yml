@@ -30,10 +30,23 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: .
+        quiet: true
+        soft_fail: true 
+        framework: terraform 
+
     - name: Terraform Init
       run: |
            terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/dev/terraform.tfstate"
-        
+
+    - name: Terraform fmt check
+      run: |
+        terraform fmt -check -recursive
+
     - name: Terraform Validate
       run: |
            terraform validate
