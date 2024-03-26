@@ -54,7 +54,6 @@ data "aws_secretsmanager_secret_version" "terraform_secret_version" {
 module "ecs" {
   source              = "./modules/container-service"
   account             = var.names["${var.env}"]["accountidentifiers"]
-  resource_identifier = var.names["resource_identifier"]
   env                 = var.env
   system              = var.names["system"]
   app                 = var.names["app"]
