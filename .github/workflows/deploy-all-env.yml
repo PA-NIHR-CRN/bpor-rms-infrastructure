@@ -22,7 +22,7 @@ jobs:
         
     - name: Terraform Init - Dev
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=se/dev/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/dev/terraform.tfstate"
         
     - name: Terraform Validate - Dev
       run: |
@@ -50,7 +50,7 @@ jobs:
         
     - name: Terraform Init - test
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=se/test/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/test/terraform.tfstate"
         
     - name: Terraform Validate - test
       run: |
@@ -82,7 +82,7 @@ jobs:
         
     - name: Terraform Init - test
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=se/test/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/test/terraform.tfstate"
         
     - name: Terraform Validate - test
       run: |
@@ -113,7 +113,7 @@ jobs:
         
     - name: Terraform Init - uat
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=se/uat/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/uat/terraform.tfstate"
         
     - name: Terraform Validate - uat
       run: |
@@ -145,7 +145,7 @@ jobs:
         
     - name: Terraform Init - uat
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=se/uat/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/uat/terraform.tfstate"
         
     - name: Terraform Validate - uat
       run: |
@@ -177,7 +177,7 @@ jobs:
         
     - name: Terraform Init - oat
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=se/oat/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/oat/terraform.tfstate"
         
     - name: Terraform Validate - oat
       run: |
@@ -209,7 +209,7 @@ jobs:
         
     - name: Terraform Init - oat
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=se/oat/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/oat/terraform.tfstate"
         
     - name: Terraform Validate - oat
       run: |
@@ -240,7 +240,7 @@ jobs:
         
     - name: Terraform Init - prod
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=se/prod/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/prod/terraform.tfstate"
         
     - name: Terraform Validate - prod
       run: |
@@ -272,7 +272,7 @@ jobs:
         
     - name: Terraform Init - prod
       run: |
-        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=se/prod/terraform.tfstate"
+        terraform init -backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/prod/terraform.tfstate"
         
     - name: Terraform Validate - prod
       run: |

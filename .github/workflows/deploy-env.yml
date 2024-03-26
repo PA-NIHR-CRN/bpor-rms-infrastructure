@@ -30,19 +30,19 @@ jobs:
       run: |
             if [[ ${{ github.event.inputs.environment }} == 'dev' || ${{ github.event.inputs.environment }} == 'test' ]] 
             then
-              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=se/${{ github.event.inputs.environment }}/terraform.tfstate"'
+              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/${{ github.event.inputs.environment }}/terraform.tfstate"'
               export AWS_ACCESS_KEY="${{ secrets.NIHR_GITHUB_ACTIONS_IAM_ID }}"
               export AWS_SEC_ACCESS_KEY="${{ secrets.NIHR_GITHUB_ACTIONS_IAM_SECRET }}"
             elif [[ ${{ github.event.inputs.environment }} == 'uat' ]] 
             then
-              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=se/${{ github.event.inputs.environment }}/terraform.tfstate"'
+              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_STAGING_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/${{ github.event.inputs.environment }}/terraform.tfstate"'
               export AWS_ACCESS_KEY="${{ secrets.CRNCC_STAGING_IAM_ACCESS_KEY_ID }}"
               export AWS_SEC_ACCESS_KEY="${{ secrets.CRNCC_STAGING_IAM_ACCESS_KEY_SECRET }}"
             elif [[ ${{ github.event.inputs.environment }} == 'oat' || ${{ github.event.inputs.environment }} == 'prod' ]] 
             then
               export AWS_ACCESS_KEY="${{ secrets.CRNCC_PROD_IAM_ACCESS_KEY_ID }}"
               export AWS_SEC_ACCESS_KEY="${{ secrets.CRNCC_PROD_IAM_ACCESS_KEY_SECRET }}"
-              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=se/${{ github.event.inputs.environment }}/terraform.tfstate"'            
+              export INIT_FLAG='-backend-config="bucket=${{ secrets.CRNCC_PROD_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/${{ github.event.inputs.environment }}/terraform.tfstate"'            
             fi
 
             echo "::set-env name=AWS_ACCESS_KEY::${AWS_ACCESS_KEY}"

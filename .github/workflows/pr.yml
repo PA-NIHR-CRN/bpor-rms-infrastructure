@@ -32,7 +32,7 @@ jobs:
 
     - name: Terraform Init
       run: |
-           terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=se/dev/terraform.tfstate"
+           terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/dev/terraform.tfstate"
         
     - name: Terraform Validate
       run: |
