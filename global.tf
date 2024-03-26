@@ -1,10 +1,10 @@
 variable "names" {
   default = {
-    "retention_in_days" = "30"
-    "proj"              = "crncc"
+    "retention_in_days"   = "30"
+    "proj"                = "crncc"
     "resource-identifier" = "bpor-rms"
-    "system"            = "bpor"
-    "app"               = "rms"
+    "system"              = "bpor"
+    "app"                 = "rms"
 
     "dev" = {
       "accountidentifiers"    = "crnccd"

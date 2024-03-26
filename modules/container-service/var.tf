@@ -71,10 +71,6 @@ variable "validation_email" {
 
 }
 
-variable "resource_identifier" {
-
-}
-
 variable "app" {
 
 }

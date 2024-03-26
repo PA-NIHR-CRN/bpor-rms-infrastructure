@@ -9,6 +9,7 @@ resource "aws_ecr_repository" "repo" {
     Environment = var.env
     Name        = var.repo_name
     System      = var.system
+    Component   = var.app
   }
   lifecycle {
     ignore_changes = [

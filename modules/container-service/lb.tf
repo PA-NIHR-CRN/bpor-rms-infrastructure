@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg-lb" {
-  name        = "${var.account}-sg-${var.env}-lb-${var.resource_identifier}"
+  name        = "${var.account}-sg-${var.env}-lb-${var.system}-${var.app}"
   description = "Allow HTTP(S) inbound traffic"
   vpc_id      = var.vpc_id
 
@@ -28,7 +28,7 @@ resource "aws_security_group" "sg-lb" {
   }
 
   tags = {
-    Name        = "${var.account}-sg-${var.env}-lb-${var.resource_identifier}",
+    Name        = "${var.account}-sg-${var.env}-lb-${var.system}-${var.app}",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
@@ -39,7 +39,7 @@ resource "aws_security_group" "sg-lb" {
 
 
 resource "aws_lb" "lb" {
-  name               = "${var.account}-lb-${var.env}-${var.resource_identifier}"
+  name               = "${var.account}-lb-${var.env}-${var.system}-${var.app}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.sg-lb.id]
@@ -53,7 +53,7 @@ resource "aws_lb" "lb" {
   }
 
   tags = {
-    Name        = "${var.account}-lb-${var.env}-${var.resource_identifier}"
+    Name        = "${var.account}-lb-${var.env}-${var.system}-${var.app}"
     Environment = var.env
     System      = var.system
     Component   = var.app
@@ -61,7 +61,7 @@ resource "aws_lb" "lb" {
 }
 
 resource "aws_lb_target_group" "lb-targetgroup" {
-  name                 = "${var.account}-lb-${var.env}-${var.resource_identifier}-targetgroup"
+  name                 = "${var.account}-lb-${var.env}-${var.system}-${var.app}-targetgroup"
   port                 = 3000
   protocol             = "HTTP"
   target_type          = "ip"
@@ -81,9 +81,10 @@ resource "aws_lb_target_group" "lb-targetgroup" {
   }
 
   tags = {
-    Name        = "${var.account}-lb-${var.env}-${var.resource_identifier}-targetgroup"
+    Name        = "${var.account}-lb-${var.env}-${var.system}-${var.app}-targetgroup"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 
@@ -102,9 +103,10 @@ resource "aws_lb_listener" "lb-listener-" {
     }
   }
   tags = {
-    Name        = "${var.account}-lb-${var.env}-${var.resource_identifier}-http-listener"
+    Name        = "${var.account}-lb-${var.env}-${var.system}-${var.app}-http-listener"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 
@@ -120,9 +122,10 @@ resource "aws_lb_listener" "lb-listener-https" {
     target_group_arn = aws_lb_target_group.lb-targetgroup.arn
   }
   tags = {
-    Name        = "${var.account}-lb-${var.env}-${var.resource_identifier}-https-listener"
+    Name        = "${var.account}-lb-${var.env}-${var.system}-${var.app}-https-listener"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 

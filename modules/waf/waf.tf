@@ -289,5 +289,6 @@ module "waf" {
     Name        = var.name
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }

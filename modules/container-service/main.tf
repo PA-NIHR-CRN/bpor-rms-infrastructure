@@ -1,8 +1,8 @@
 resource "aws_ecs_cluster" "ecs-cluster" {
-  name = "${var.account}-ecs-${var.env}-${var.resource_identifier}-cluster"
+  name = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-cluster"
 
   tags = {
-    Name        = "${var.account}-ecs-${var.env}-${var.resource_identifier}-cluster",
+    Name        = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-cluster",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
@@ -10,11 +10,11 @@ resource "aws_ecs_cluster" "ecs-cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs-cloudwatchloggroup" {
-  name              = "${var.account}-ecs-${var.env}-${var.resource_identifier}-loggroup"
+  name              = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-loggroup"
   retention_in_days = "30"
 
   tags = {
-    Name        = "${var.account}-ecs-cloudwatch-${var.env}-${var.resource_identifier}-loggroup",
+    Name        = "${var.account}-ecs-cloudwatch-${var.env}-${var.system}-${var.app}-loggroup",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
@@ -23,7 +23,7 @@ resource "aws_cloudwatch_log_group" "ecs-cloudwatchloggroup" {
 
 
 resource "aws_ecs_task_definition" "ecs-task-definition" {
-  family                   = "${var.account}-ecs-${var.env}-${var.resource_identifier}-task-definition"
+  family                   = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-task-definition"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.ecs_cpu
@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "ecs-task-definition" {
     }
   }])
   tags = {
-    Name        = "${var.account}-ecs-${var.env}-${var.resource_identifier}-task-definition",
+    Name        = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-task-definition",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "ecs-task-definition" {
 }
 
 resource "aws_security_group" "sg-ecs" {
-  name        = "${var.account}-sg-${var.env}-ecs-${var.resource_identifier}"
+  name        = "${var.account}-sg-${var.env}-ecs-${var.system}-${var.app}"
   description = "Allow HTTP inbound traffic"
   vpc_id      = var.vpc_id
 
@@ -78,7 +78,7 @@ resource "aws_security_group" "sg-ecs" {
   }
 
   tags = {
-    Name        = "${var.account}-sg-${var.env}-ecs-${var.resource_identifier}",
+    Name        = "${var.account}-sg-${var.env}-ecs-${var.system}-${var.app}",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
@@ -86,7 +86,7 @@ resource "aws_security_group" "sg-ecs" {
 }
 
 resource "aws_ecs_service" "ecs_service" {
-  name            = "${var.account}-ecs-${var.env}-${var.resource_identifier}-service"
+  name            = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-service"
   cluster         = aws_ecs_cluster.ecs-cluster.id
   task_definition = aws_ecs_task_definition.ecs-task-definition.arn
   desired_count   = var.instance_count
@@ -105,7 +105,7 @@ resource "aws_ecs_service" "ecs_service" {
   # health_check_grace_period_seconds = 30
 
   tags = {
-    Name        = "${var.account}-ecs-${var.env}-${var.resource_identifier}-service",
+    Name        = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-service",
     Environment = var.env,
     System      = var.system,
     Component   = var.app
