@@ -1,0 +1,57 @@
+name: 'PR - Terraform Plan Dev'
+
+on:
+  push:
+    branches:
+       - '*'
+       - '*/*'
+       - '**'
+       - '!main'  
+  pull_request:
+    branches:
+       - '!main'  
+
+jobs:
+  terraform:
+    name: 'PR Raise From Any Branch to Develop'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.NIHR_GITHUB_ACTIONS_IAM_ID }}
+        aws-secret-access-key: ${{ secrets.NIHR_GITHUB_ACTIONS_IAM_SECRET }}
+        aws-region: eu-west-2
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: .
+        quiet: true
+        soft_fail: true 
+        framework: terraform 
+
+    - name: Terraform Init
+      run: |
+           terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/dev/terraform.tfstate"
+
+    - name: Terraform fmt check
+      run: |
+        terraform fmt -check -recursive
+
+    - name: Terraform Validate
+      run: |
+           terraform validate
+
+    - name: Terraform Plan
+      run: |
+           terraform plan -var="env=dev" 
+
