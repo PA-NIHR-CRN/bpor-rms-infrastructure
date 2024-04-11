@@ -62,7 +62,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "lb-targetgroup" {
   name                 = "${var.account}-lb-${var.env}-${var.system}-${var.app}-tg"
-  port                 = 3000
+  port                 = 8080
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
@@ -72,7 +72,7 @@ resource "aws_lb_target_group" "lb-targetgroup" {
     enabled             = true
     protocol            = "HTTP"
     path                = "/api/health"
-    port                = "3000"
+    port                = "8080"
     healthy_threshold   = 5
     unhealthy_threshold = 2
     timeout             = 5

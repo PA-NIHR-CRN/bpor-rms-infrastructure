@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "ecs-task-definition" {
     essential = true
     portMappings = [{
       protocol      = "tcp"
-      containerPort = 3000
-      hostPort      = 3000
+      containerPort = 8080
+      hostPort      = 8080
     }]
     logConfiguration = {
       logDriver = "awslogs"
@@ -63,8 +63,8 @@ resource "aws_security_group" "sg-ecs" {
 
   ingress {
     description     = "HTTP"
-    from_port       = 3000
-    to_port         = 3000
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.sg-lb.id]
   }
@@ -100,7 +100,7 @@ resource "aws_ecs_service" "ecs_service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.lb-targetgroup.arn
     container_name   = var.container_name
-    container_port   = 3000
+    container_port   = 8080
   }
   # health_check_grace_period_seconds = 30
 
