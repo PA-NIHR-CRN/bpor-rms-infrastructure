@@ -43,7 +43,8 @@ resource "aws_iam_role_policy" "task-execution-role-policy" {
           "kafka:*",
           "ses:SendEmail",
           "ses:SendRawEmail",
-          "ses:GetSendQuota"
+          "ses:GetSendQuota",
+          "secretsmanager:GetSecretValue"
         ]
         Effect   = "Allow"
         Resource = "*"
