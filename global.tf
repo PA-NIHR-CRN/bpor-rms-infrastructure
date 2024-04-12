@@ -9,7 +9,7 @@ variable "names" {
     "dev" = {
       "accountidentifiers"    = "crnccd"
       "environment"           = "dev"
-      "app"                   = "se"
+      "app"                   = "rms"
       "backupretentionperiod" = 7
       "engine"                = "mysql"
       "engine_version"        = "8.0.mysql_aurora.3.02.2"
@@ -44,7 +44,7 @@ variable "names" {
     "test" = {
       "accountidentifiers"    = "crnccd"
       "environment"           = "test"
-      "app"                   = "se"
+      "app"                   = "rms"
       "backupretentionperiod" = 7
       "engine"                = "mysql"
       "engine_version"        = "8.0.mysql_aurora.3.02.2"
@@ -79,7 +79,7 @@ variable "names" {
     "uat" = {
       "accountidentifiers"    = "crnccs"
       "environment"           = "uat"
-      "app"                   = "se"
+      "app"                   = "rms"
       "backupretentionperiod" = 7
       "engine"                = "mysql"
       "engine_version"        = "8.0.mysql_aurora.3.02.2"
@@ -115,7 +115,7 @@ variable "names" {
     "oat" = {
       "accountidentifiers"    = "crnccp"
       "environment"           = "oat"
-      "app"                   = "se"
+      "app"                   = "rms"
       "backupretentionperiod" = 7
       "engine"                = "mysql"
       "engine_version"        = "8.0.mysql_aurora.3.02.2"
@@ -150,7 +150,7 @@ variable "names" {
     "prod" = {
       "accountidentifiers"    = "crnccp"
       "environment"           = "prod"
-      "app"                   = "se"
+      "app"                   = "rms"
       "backupretentionperiod" = "7"
       "engine"                = "mysql"
       "engine_version"        = "8.0.mysql_aurora.3.02.2"
