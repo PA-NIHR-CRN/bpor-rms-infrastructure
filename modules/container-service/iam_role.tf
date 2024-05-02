@@ -44,7 +44,9 @@ resource "aws_iam_role_policy" "task-execution-role-policy" {
           "ses:SendEmail",
           "ses:SendRawEmail",
           "ses:GetSendQuota",
-          "secretsmanager:GetSecretValue"
+          "secretsmanager:GetSecretValue",
+          "ssm:PutParameter",
+          "ssm:GetParametersByPath"
         ]
         Effect   = "Allow"
         Resource = "*"
