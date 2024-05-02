@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_metric_alarm" "httpcode_target_5xx_count" {
   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-high5XXCount"
+  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-high5XXCount"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = var.evaluation_period
   metric_name         = "HTTPCode_Target_5XX_Count"
@@ -18,16 +18,17 @@ resource "aws_cloudwatch_metric_alarm" "httpcode_target_5xx_count" {
     "LoadBalancer" = var.load_balancer_id
   }
   tags = {
-    Name        = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-high5XXCount"
+    Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-high5XXCount"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 
 }
 
 resource "aws_cloudwatch_metric_alarm" "httpcode_lb_5xx_count" {
   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-high5XXCount"
+  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-high5XXCount"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = var.evaluation_period
   metric_name         = "HTTPCode_ELB_5XX_Count"
@@ -44,15 +45,16 @@ resource "aws_cloudwatch_metric_alarm" "httpcode_lb_5xx_count" {
     "LoadBalancer" = var.load_balancer_id
   }
   tags = {
-    Name        = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-high5XXCount"
+    Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-high5XXCount"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "target_response_time_average" {
   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-highResponseTime"
+  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-highResponseTime"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = var.evaluation_period
   metric_name         = "TargetResponseTime"
@@ -70,15 +72,16 @@ resource "aws_cloudwatch_metric_alarm" "target_response_time_average" {
     "LoadBalancer" = var.load_balancer_id
   }
   tags = {
-    Name        = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-highResponseTime"
+    Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-highResponseTime"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-unhealthy-hosts"
+  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-unhealthy-hosts"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = var.evaluation_period
   metric_name         = "UnHealthyHostCount"
@@ -95,15 +98,16 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
     "LoadBalancer" = var.load_balancer_id
   }
   tags = {
-    Name        = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-unhealthy-hosts"
+    Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-unhealthy-hosts"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "healthy_hosts" {
   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-healthy-hosts"
+  alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-healthy-hosts"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.evaluation_period
   metric_name         = "HealthyHostCount"
@@ -120,8 +124,9 @@ resource "aws_cloudwatch_metric_alarm" "healthy_hosts" {
     "LoadBalancer" = var.load_balancer_id
   }
   tags = {
-    Name        = "${var.account}-cloudwatch-${var.env}-${var.app}-alb-tg-healthy-hosts"
+    Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-healthy-hosts"
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
