@@ -104,3 +104,11 @@ module "waf" {
   log_group      = [data.aws_cloudwatch_log_group.waf_log_group.arn]
   waf_ip_set_arn = data.aws_wafv2_ip_set.ip_set.arn
 }
+
+module "ecs_autoscaling" {
+  source  = "./modules/autoscaling_group"
+  env     = var.env
+  system  = var.names["system"]
+  app     = var.names["app"]
+  account = var.names["${var.env}"]["accountidentifiers"]
+}
