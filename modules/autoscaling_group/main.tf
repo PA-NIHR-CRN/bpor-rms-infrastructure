@@ -5,6 +5,12 @@ resource "aws_appautoscaling_target" "my_service" {
   resource_id        = "service/${var.account}-ecs-${var.env}-${var.system}-${var.app}-cluster/${var.account}-ecs-${var.env}-${var.system}-${var.app}-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+  lifecycle {
+    ignore_changes = [ 
+        min_capacity,
+        max_capacity
+     ]
+  }
 }
 resource "aws_appautoscaling_scheduled_action" "my_service" {
   count              = var.env == "oat" || var.env == "prod" ? 0 : 1
@@ -25,7 +31,7 @@ resource "aws_appautoscaling_scheduled_action" "my_service_scale_out" {
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
   resource_id        = aws_appautoscaling_target.my_service[0].resource_id
   scalable_dimension = aws_appautoscaling_target.my_service[0].scalable_dimension
-  schedule           = "cron(0 50 11 ? * MON-FRI *)"
+  schedule           = "cron(0 55 11 ? * MON-FRI *)"
 
   scalable_target_action {
     min_capacity = 1
