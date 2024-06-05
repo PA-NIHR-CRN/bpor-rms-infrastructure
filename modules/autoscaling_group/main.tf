@@ -25,7 +25,7 @@ resource "aws_appautoscaling_scheduled_action" "my_service_scale_out" {
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
   resource_id        = aws_appautoscaling_target.my_service[0].resource_id
   scalable_dimension = aws_appautoscaling_target.my_service[0].scalable_dimension
-  schedule           = "cron(0 0 6 ? * MON-FRI *)"
+  schedule           = "cron(0 50 11 ? * MON-FRI *)"
 
   scalable_target_action {
     min_capacity = 1
