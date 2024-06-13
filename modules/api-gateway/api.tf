@@ -159,10 +159,17 @@ resource "aws_api_gateway_method_response" "main" {
   ]
 }
 
+resource "aws_api_gateway_stage" "main" {
+  count         = var.env == "dev" ? 1 : 0
+  deployment_id = aws_api_gateway_deployment.main[0].id
+  rest_api_id   = aws_api_gateway_rest_api.main[0].id
+  stage_name    = var.env
+}
+
 resource "aws_api_gateway_method_settings" "main" {
   count       = var.env == "dev" ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.main[0].id
-  stage_name  = var.env
+  stage_name  = aws_api_gateway_stage.main[0].stage_name
   method_path = "*/*"
 
   settings {
@@ -198,7 +205,7 @@ resource "aws_api_gateway_deployment" "main" {
   count       = var.env == "dev" ? 1 : 0
   depends_on  = [aws_api_gateway_integration.main[0]]
   rest_api_id = aws_api_gateway_rest_api.main[0].id
-  stage_name  = var.env
+  stage_name  = aws_api_gateway_stage.main[0].stage_name
 }
 
 //lambda invoker
