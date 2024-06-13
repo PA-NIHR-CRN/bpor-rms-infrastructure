@@ -75,16 +75,6 @@ data "aws_iam_policy_document" "lambda" {
   }
 
   statement {
-    sid    = "CognitoIdenitity"
-    effect = "Allow"
-    actions = [
-      "cognito-identity:*",
-      "cognito-idp:*"
-    ]
-    resources = ["*"]
-  }
-
-  statement {
     sid    = "AllowCreateDeleteNetworkInterface"
     effect = "Allow"
     actions = [
