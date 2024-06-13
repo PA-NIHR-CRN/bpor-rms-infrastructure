@@ -136,6 +136,5 @@ module "lambda" {
   private_subnet_ids = var.names["${var.env}"]["private_subnet_ids"]
   retention_in_days  = var.names["${var.env}"]["retention_period"]
   vpc_id             = var.names["${var.env}"]["vpcid"]
-  cognito_identifier = module.cognito.userpool_endpoint
 
 }
