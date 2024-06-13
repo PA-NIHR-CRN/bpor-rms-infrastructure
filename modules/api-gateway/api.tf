@@ -205,7 +205,7 @@ resource "aws_api_gateway_deployment" "main" {
   count       = var.env == "dev" ? 1 : 0
   depends_on  = [aws_api_gateway_integration.main[0]]
   rest_api_id = aws_api_gateway_rest_api.main[0].id
-  stage_name  = aws_api_gateway_stage.main[0].stage_name
+  stage_name  = var.env
 }
 
 //lambda invoker
