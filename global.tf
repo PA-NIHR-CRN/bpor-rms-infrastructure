@@ -39,6 +39,7 @@ variable "names" {
       "rds_anomaly_period"    = 600
       "enable_notify_task"    = true
       "rds_max_connections"   = "50"
+      "lambda_memory"         = 128
     }
 
     "test" = {

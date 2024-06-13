@@ -127,14 +127,14 @@ module "api_gateway" {
 }
 
 module "lambda" {
-  source             = "./modules/lambda"
-  account            = var.names["${var.env}"]["accountidentifiers"]
-  env                = var.env
-  system             = var.names["system"]
-  app                = var.names["app"]
-  memory_size        = var.names["${var.env}"]["lambda_memory"]
-  private_subnet_ids = var.names["${var.env}"]["private_subnet_ids"]
-  retention_in_days  = var.names["${var.env}"]["retention_period"]
-  vpc_id             = var.names["${var.env}"]["vpcid"]
+  source            = "./modules/lambda"
+  account           = var.names["${var.env}"]["accountidentifiers"]
+  env               = var.env
+  system            = var.names["system"]
+  app               = var.names["app"]
+  memory_size       = var.names["${var.env}"]["lambda_memory"]
+  subnet_ids        = var.names["${var.env}"]["rds_subnet_ids"]
+  retention_in_days = var.names["${var.env}"]["retention_period"]
+  vpc_id            = var.names["${var.env}"]["vpcid"]
 
 }

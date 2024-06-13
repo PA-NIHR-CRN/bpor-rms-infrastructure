@@ -31,7 +31,7 @@ resource "aws_lambda_function" "callback_forwarder_lambda" {
   description   = "reverse proxy for callback url"
 
   vpc_config {
-    subnet_ids         = var.private_subnet_ids
+    subnet_ids         = var.subnet_ids
     security_group_ids = [aws_security_group.sg_lambda[0].id]
   }
 

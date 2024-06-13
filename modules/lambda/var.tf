@@ -21,7 +21,7 @@ variable "memory_size" {
   type = string
 }
 
-variable "private_subnet_ids" {
+variable "subnet_ids" {
 
 }
 
