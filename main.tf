@@ -120,7 +120,6 @@ module "api_gateway" {
   system              = var.names["system"]
   app                 = var.names["app"]
   invoke_lambda_arn   = module.lambda.callback_forwarder_invoke_alias_arn
-  stage_name          = "v1"
   function_name       = module.lambda.function_name
   function_alias_name = module.lambda.alias_name
 

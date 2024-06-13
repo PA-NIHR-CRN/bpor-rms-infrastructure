@@ -162,7 +162,7 @@ resource "aws_api_gateway_method_response" "main" {
 resource "aws_api_gateway_method_settings" "main" {
   count       = var.env == "dev" ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.main[0].id
-  stage_name  = "v1"
+  stage_name  = var.env
   method_path = "*/*"
 
   settings {
@@ -198,7 +198,7 @@ resource "aws_api_gateway_deployment" "main" {
   count       = var.env == "dev" ? 1 : 0
   depends_on  = [aws_api_gateway_integration.main[0]]
   rest_api_id = aws_api_gateway_rest_api.main[0].id
-  stage_name  = var.stage_name
+  stage_name  = var.env
 }
 
 //lambda invoker
