@@ -112,3 +112,30 @@ module "ecs_autoscaling" {
   app     = var.names["app"]
   account = var.names["${var.env}"]["accountidentifiers"]
 }
+
+module "api_gateway" {
+  source              = "./modules/api-gateway"
+  account             = var.names["${var.env}"]["accountidentifiers"]
+  env                 = var.env
+  system              = var.names["system"]
+  app                 = var.names["app"]
+  invoke_lambda_arn   = module.lambda.callback_forwarder_invoke_alias_arn
+  stage_name          = "v1"
+  function_name       = module.lambda.function_name
+  function_alias_name = module.lambda.alias_name
+
+}
+
+module "lambda" {
+  source             = "./modules/lambda"
+  account            = var.names["${var.env}"]["accountidentifiers"]
+  env                = var.env
+  system             = var.names["system"]
+  app                = var.names["app"]
+  memory_size        = var.names["${var.env}"]["lambda_memory"]
+  private_subnet_ids = var.names["${var.env}"]["private_subnet_ids"]
+  retention_in_days  = var.names["${var.env}"]["retention_period"]
+  vpc_id             = var.names["${var.env}"]["vpcid"]
+  cognito_identifier = module.cognito.userpool_endpoint
+
+}
