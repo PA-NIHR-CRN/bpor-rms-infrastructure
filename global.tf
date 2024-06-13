@@ -40,6 +40,7 @@ variable "names" {
       "enable_notify_task"    = true
       "rds_max_connections"   = "50"
       "lambda_memory"         = 128
+      "retention_period"      = 30
     }
 
     "test" = {
