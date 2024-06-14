@@ -27,7 +27,7 @@ resource "aws_lambda_function" "callback_forwarder_lambda" {
   handler       = "BPOR::BPOR.Callback.Function::FunctionHandlerAsync"
   filename      = "./modules/.build/lambda_dummy/lambda_dummy.zip"
   role          = aws_iam_role.lambda.arn
-  runtime       = "dotnet6"
+  runtime       = "dotnet8"
   description   = "reverse proxy for callback url"
 
   vpc_config {
