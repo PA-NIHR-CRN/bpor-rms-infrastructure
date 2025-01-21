@@ -22,7 +22,7 @@ variable "alb_arn" {
 variable "waf_ip_set_arn" {
 
 }
-
 variable "app" {
 
 }
+variable "header_name" {}
