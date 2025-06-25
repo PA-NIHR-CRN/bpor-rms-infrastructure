@@ -11,8 +11,9 @@ resource "aws_dynamodb_table" "idempotency" {
     enabled        = true
   }
   tags = {
-      Name             = var.idempotency_name
-      Environment      = var.env
-      System           = var.system
-    }
+    Name             = var.idempotency_name
+    Environment      = var.env
+    System           = var.system
+    Component        = var.app
+  }
 }

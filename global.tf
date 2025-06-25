@@ -181,9 +181,5 @@ variable "names" {
       "enable_notify_task"    = true
       "rds_max_connections"   = "50"
     }
-    
-    "dynamodb" = {
-      "idempotency" = "idempotency"
-    }
   }
 }
