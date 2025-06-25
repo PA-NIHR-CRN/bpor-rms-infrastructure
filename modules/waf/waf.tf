@@ -257,10 +257,36 @@ module "waf" {
         }
       }
 
-
       visibility_config = {
         cloudwatch_metrics_enabled = true
         metric_name                = "${var.name}-httpfloodprotection-metric"
+        sampled_requests_enabled   = true
+      }
+
+    },
+    {
+      name     = "${var.name}-hostheaderblock",
+      priority = 4
+      action   = "block"
+
+      not_statement = {
+        byte_match_statement = {
+          field_to_match = {
+            single_header = {
+              name = "host"
+            }
+          }
+          positional_constraint = "CONTAINS"
+          search_string         = var.header_name
+          priority              = 0
+          type                  = "NONE"
+
+        }
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = true
+        metric_name                = "${var.name}-hostheaderblock-metric"
         sampled_requests_enabled   = true
       }
 
