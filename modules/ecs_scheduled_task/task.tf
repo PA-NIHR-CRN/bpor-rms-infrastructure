@@ -14,6 +14,7 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
     Name        = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-cw-event-rule",
     Environment = var.env,
     System      = var.system,
+    Component   = var.app,
   }
 }
 
@@ -64,6 +65,7 @@ resource "aws_cloudwatch_log_group" "ecs-loggroup" {
     Name        = "${var.account}-ecs-cloudwatch-${var.env}-${var.system}-${var.app}-loggroup",
     Environment = var.env,
     System      = var.system,
+    Component   = var.app,
   }
 }
 
@@ -97,6 +99,7 @@ resource "aws_ecs_task_definition" "scheduled-task-definition" {
     Name        = "${var.account}-ecs-${var.env}-${var.system}-${var.app}-task-definition",
     Environment = var.env,
     System      = var.system,
+    Component   = var.app,
   }
 }
 

@@ -68,6 +68,7 @@ resource "aws_cloudfront_distribution" "cloud_front" {
     Name        = var.name
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 
 }

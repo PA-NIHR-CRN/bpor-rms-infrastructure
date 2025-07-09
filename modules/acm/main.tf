@@ -19,6 +19,7 @@ resource "aws_acm_certificate" "cert" {
     Environment = var.env
     Name        = var.domain_name
     System      = var.system
+    Component   = var.app
   }
 
   lifecycle {
@@ -45,6 +46,7 @@ resource "aws_api_gateway_domain_name" "domain" {
     Environment = var.env
     Name        = var.domain_name
     System      = var.system
+    Component   = var.app
   }
 }
 

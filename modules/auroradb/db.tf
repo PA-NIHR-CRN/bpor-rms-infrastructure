@@ -18,7 +18,8 @@ resource "aws_security_group" "sg-rds" {
   tags = {
     Name        = "${var.account}-sg-rds-aurora-${var.env}-${var.app}"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -71,7 +72,8 @@ resource "aws_secretsmanager_secret" "credentials" {
   tags = {
     Name        = "${var.account}-secret-${var.env}-rds-aurora-mysql-${var.app}-admin-password"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -168,7 +170,8 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   tags = {
     Name        = "${var.account}-rds-aurora-${var.env}-${var.app}-${count.index}"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -193,7 +196,8 @@ resource "aws_secretsmanager_secret" "sql_user_credentials" {
   tags = {
     Name        = "${var.account}-secret-${var.env}-rds-aurora-mysql-${var.app}-biuser-password"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 

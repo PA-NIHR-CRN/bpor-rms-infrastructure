@@ -33,7 +33,8 @@ resource "aws_cloudwatch_metric_alarm" "latency95" {
   tags = {
     Name        = "${var.api_gateway_list[count.index]}-95-latency-alarm"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -60,7 +61,8 @@ resource "aws_cloudwatch_metric_alarm" "latency99" {
   tags = {
     Name        = "${var.api_gateway_list[count.index]}-99-latency-alarm"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -130,7 +132,8 @@ resource "aws_cloudwatch_metric_alarm" "fourRate" {
   tags = {
     Name        = "${var.api_gateway_list[count.index]}-4xx-error-alarm"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
 
@@ -200,6 +203,7 @@ resource "aws_cloudwatch_metric_alarm" "fiveRate" {
   tags = {
     Name        = "${var.api_gateway_list[count.index]}-4xx-error-alarm"
     Environment = var.env
-    System      = var.app
+    System      = var.system
+    Component   = var.app
   }
 }
