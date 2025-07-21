@@ -104,29 +104,3 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
     Component   = var.app
   }
 }
-
-# resource "aws_cloudwatch_metric_alarm" "healthy_hosts" {
-#   count               = var.env == "dev" || var.env == "test" ? 0 : 1
-#   alarm_name          = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-healthy-hosts"
-#   comparison_operator = "LessThanOrEqualToThreshold"
-#   evaluation_periods  = var.evaluation_period
-#   metric_name         = "HealthyHostCount"
-#   namespace           = "AWS/ApplicationELB"
-#   period              = var.statistic_period
-#   statistic           = "Minimum"
-#   threshold           = var.healthy_hosts_threshold
-#   alarm_description   = format("Healthy host count is less than or equal to %s", var.healthy_hosts_threshold)
-#   alarm_actions       = var.env == "prod" ? [var.sns_topic, var.sns_topic_service_desk] : [var.sns_topic]
-#   ok_actions          = var.env == "prod" ? [var.sns_topic, var.sns_topic_service_desk] : [var.sns_topic]
-
-#   dimensions = {
-#     "TargetGroup"  = var.target_group_id
-#     "LoadBalancer" = var.load_balancer_id
-#   }
-#   tags = {
-#     Name        = "${var.account}-cloudwatch-${var.env}-${var.system}-${var.app}-alb-tg-healthy-hosts"
-#     Environment = var.env
-#     System      = var.system
-#     Component   = var.app
-#   }
-# }
