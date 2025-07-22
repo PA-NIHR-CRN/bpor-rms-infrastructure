@@ -113,3 +113,11 @@ module "ecs_autoscaling" {
   app     = var.names["app"]
   account = var.names["${var.env}"]["accountidentifiers"]
 }
+
+module "dynamodb" {
+  source               = "./modules/dynamodb"
+  env                  = var.env
+  app                  = var.names["app"]
+  system               = var.names["system"]
+  idempotency_name     = "${var.names["${var.env}"]["accountidentifiers"]}-dynamodb-${var.env}-${var.names["system"]}-${var.names["app"]}-idempotency"
+}

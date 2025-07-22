@@ -20,11 +20,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.NIHR_GITHUB_ACTIONS_IAM_SECRET }}
         aws-region: eu-west-2
 
+    # Install Terraform
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.10.4
-        
+
     - name: Terraform Init - Dev
       run: |
         terraform init -backend-config="bucket=${{ secrets.CRNCC_DEV_TERRAFORM_BUCKET }}" -backend-config="key=bpor-rms/dev/terraform.tfstate"
