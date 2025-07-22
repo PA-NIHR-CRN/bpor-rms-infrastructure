@@ -37,6 +37,7 @@ EOT
     Name        = var.bucket_name
     Environment = var.env
     System      = var.system
+    Component   = var.app
   }
 }
 

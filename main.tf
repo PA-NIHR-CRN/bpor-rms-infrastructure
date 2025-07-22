@@ -103,6 +103,7 @@ module "waf" {
   enable_logging = true
   log_group      = [data.aws_cloudwatch_log_group.waf_log_group.arn]
   waf_ip_set_arn = data.aws_wafv2_ip_set.ip_set.arn
+  header_name    = "studies.bepartofresearch"
 }
 
 module "ecs_autoscaling" {
