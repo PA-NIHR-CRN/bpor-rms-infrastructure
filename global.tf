@@ -136,7 +136,7 @@ variable "names" {
       "log_types" = ["error", "general", "slowquery", "audit"]
       "publicly_accessible"   = true
       "add_scheduler_tag"     = true
-      "ecs_instance_count"    = 3
+      "ecs_instance_count"    = 1
       "waf_create"            = "true"
       "whitelist_ips" = ["0.0.0.0/0"]
       "ecs_cpu"               = 1024
@@ -171,7 +171,7 @@ variable "names" {
       "log_types" = ["error", "general", "slowquery", "audit"]
       "publicly_accessible"   = true
       "add_scheduler_tag"     = false
-      "ecs_instance_count"    = 3
+      "ecs_instance_count"    = 1
       "waf_create"            = "true"
       "whitelist_ips" = ["0.0.0.0/0"]
       "ecs_cpu"               = 1024
