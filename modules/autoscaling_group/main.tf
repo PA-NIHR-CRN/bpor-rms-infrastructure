@@ -1,5 +1,5 @@
 resource "aws_appautoscaling_target" "my_service" {
-  count              = var.env == "oat" || var.env == "prod" ? 0 : 1
+  count              = var.env == "prod" ? 0 : 1
   max_capacity       = 1
   min_capacity       = 1
   resource_id        = "service/${var.account}-ecs-${var.env}-${var.system}-${var.app}-cluster/${var.account}-ecs-${var.env}-${var.system}-${var.app}-service"
@@ -13,7 +13,7 @@ resource "aws_appautoscaling_target" "my_service" {
   }
 }
 resource "aws_appautoscaling_scheduled_action" "my_service" {
-  count              = var.env == "oat" || var.env == "prod" ? 0 : 1
+  count              = var.env == "prod" ? 0 : 1
   name               = "${var.account}-asg-${var.env}-${var.system}-${var.app}-scale-down"
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
   resource_id        = aws_appautoscaling_target.my_service[0].resource_id
@@ -27,12 +27,12 @@ resource "aws_appautoscaling_scheduled_action" "my_service" {
   }
 }
 resource "aws_appautoscaling_scheduled_action" "my_service_scale_out" {
-  count              = var.env == "oat" || var.env == "prod" ? 0 : 1
+  count              = var.env == "prod" ? 0 : 1
   name               = "${var.account}-asg-${var.env}-${var.system}-${var.app}-scale-up"
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
   resource_id        = aws_appautoscaling_target.my_service[0].resource_id
   scalable_dimension = aws_appautoscaling_target.my_service[0].scalable_dimension
-  schedule           = "cron(0 6 ? * MON-FRI *)"
+  schedule           = "cron(0 7 ? * MON-FRI *)"
   timezone           = "Europe/London"
 
   scalable_target_action {
