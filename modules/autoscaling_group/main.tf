@@ -12,7 +12,7 @@ resource "aws_appautoscaling_target" "my_service" {
     ]
   }
 }
-resource "aws_appautoscaling_scheduled_action" "my_service" {
+resource "aws_appautoscaling_scheduled_action" "my_service_scale_down" {
   count              = var.env == "prod" ? 0 : 1
   name               = "${var.account}-asg-${var.env}-${var.system}-${var.app}-scale-down"
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
@@ -26,7 +26,7 @@ resource "aws_appautoscaling_scheduled_action" "my_service" {
     max_capacity = 0
   }
 }
-resource "aws_appautoscaling_scheduled_action" "my_service_scale_out" {
+resource "aws_appautoscaling_scheduled_action" "my_service_scale_up" {
   count              = var.env == "prod" ? 0 : 1
   name               = "${var.account}-asg-${var.env}-${var.system}-${var.app}-scale-up"
   service_namespace  = aws_appautoscaling_target.my_service[0].service_namespace
