@@ -122,9 +122,11 @@ module "dynamodb" {
 
 # S3
 module "s3" {
-  source         = "./modules/s3"
-  env            = var.env
-  app            = var.names["app"]
-  system         = var.names["system"]
-  s3_bucket_name = "${var.names["${var.env}"]["accountidentifiers"]}-s3-${var.env}-${var.names["system"]}-${var.names["app"]}"
+  source                = "./modules/s3"
+  env                   = var.env
+  app                   = var.names["app"]
+  system                = var.names["system"]
+  s3_bucket_name        = "${var.names["${var.env}"]["accountidentifiers"]}-s3-${var.env}-${var.names["system"]}-${var.names["app"]}-volunteer-data"
+  bpor_acc_no           = jsondecode(data.aws_secretsmanager_secret_version.terraform_secret_version.secret_string)["bpor-acc-no"]
+  bpor_content_iam_role = jsondecode(data.aws_secretsmanager_secret_version.terraform_secret_version.secret_string)["bpor-content-iam-role"]
 }
