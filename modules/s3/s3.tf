@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "s3_cross_account_read_access" {
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.bpor_acc_no}:role/${var.bpor_content_iam_role}"
+        "arn:aws:iam::${var.bpor_acc_no}:root"
       ]
     }
     actions = [
@@ -61,6 +61,11 @@ data "aws_iam_policy_document" "s3_cross_account_read_access" {
       "arn:aws:s3:::${var.s3_bucket_name}",
       "arn:aws:s3:::${var.s3_bucket_name}/*"
     ]
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:PrincipalArn"
+      values   = ["arn:aws:iam::${var.bpor_acc_no}:role/service-role/${var.bpor_content_iam_role}"]
+    }
     condition {
       test     = "Bool"
       variable = "aws:SecureTransport"
