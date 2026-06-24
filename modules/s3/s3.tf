@@ -69,29 +69,16 @@ data "aws_iam_policy_document" "s3_cross_account_read_access" {
   }
 }
 
-data "aws_iam_policy_document" "combined" {
-  source_json = data.aws_iam_policy_document.s3_deny_insecure_transport.json
-  statement {
-    # Use copy-paste or use dynamic referencing of the s3_read_access statement
-    sid       = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].sid
-    effect    = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].effect
-    principals {
-      type        = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].principals[0].type
-      identifiers = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].principals[0].identifiers
-    }
-    actions   = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].actions
-    resources = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].resources
-    condition {
-      test     = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].condition[0].test
-      variable = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].condition[0].variable
-      values   = data.aws_iam_policy_document.s3_cross_account_read_access.statement[0].condition[0].values
-    }
-  }
+data "aws_iam_policy_document" "combined_s3_policy" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.s3_deny_insecure_transport.json,
+    data.aws_iam_policy_document.s3_cross_account_read_access.json
+  ]
 }
 
-resource "aws_s3_bucket_policy" "s3_bucket" {
-  bucket = aws_s3_bucket.s3_bucket.id
-  policy = data.aws_iam_policy_document.combined.json
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = var.s3_bucket_name
+  policy = data.aws_iam_policy_document.combined_s3_policy.json
 }
 
 output "s3_bucket_arn" {
