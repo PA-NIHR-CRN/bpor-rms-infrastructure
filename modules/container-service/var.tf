@@ -64,4 +64,4 @@ variable "validation_email" {
 variable "app" {
 }
 
-variable "s3_bucket_name" {}
+variable "s3_bucket_arn" {}
