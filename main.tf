@@ -12,8 +12,7 @@ locals {
   account_id = data.aws_caller_identity.current.account_id
 }
 
-## CLOUDWATCH ALARMS
-
+# CloudWatch Alarms
 data "aws_sns_topic" "system_alerts" {
   name = "${var.names["${var.env}"]["accountidentifiers"]}-sns-system-alerts"
 }
@@ -49,8 +48,7 @@ data "aws_secretsmanager_secret_version" "terraform_secret_version" {
   secret_id = data.aws_secretsmanager_secret.terraform_secret.id
 }
 
-## ECS FARGATE
-
+# ECS Fargate
 module "ecs" {
   source           = "./modules/container-service"
   account          = var.names["${var.env}"]["accountidentifiers"]
@@ -79,8 +77,7 @@ module "ecr" {
   app       = var.names["app"]
 }
 
-# ## WAF
-
+# WAF
 data "aws_cloudwatch_log_group" "waf_log_group" {
   name = "aws-waf-logs-lg-gscs-${local.account_id}-eu-west-2"
 }
@@ -89,7 +86,6 @@ data "aws_wafv2_ip_set" "ip_set" {
   name  = "gscs-waf-rate-based-excluded-ips"
   scope = "REGIONAL"
 }
-
 
 module "waf" {
   source         = "./modules/waf"
@@ -114,10 +110,20 @@ module "ecs_autoscaling" {
   account = var.names["${var.env}"]["accountidentifiers"]
 }
 
+# DynamoDB
 module "dynamodb" {
   source               = "./modules/dynamodb"
   env                  = var.env
   app                  = var.names["app"]
   system               = var.names["system"]
   idempotency_name     = "${var.names["${var.env}"]["accountidentifiers"]}-dynamodb-${var.env}-${var.names["system"]}-${var.names["app"]}-idempotency"
+}
+
+# S3
+module "s3" {
+  source         = "./modules/s3"
+  env            = var.env
+  app            = var.names["app"]
+  system         = var.names["system"]
+  s3_bucket_name = "${var.names["${var.env}"]["accountidentifiers"]}-s3-${var.env}-${var.names["system"]}-${var.names["app"]}"
 }

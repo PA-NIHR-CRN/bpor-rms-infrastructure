@@ -1,4 +1,4 @@
 variable "env" {}
 variable "system" {}
 variable "app" {}
-variable "bucket_name" {}
+variable "s3_bucket_name" {}

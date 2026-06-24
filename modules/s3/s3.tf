@@ -1,78 +1,53 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = var.bucket_name
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
-  policy = <<EOT
-{
-  "Version": "2012-10-17",
-  "Id": "SSLPolicy",
-  "Statement": [
-      {
-          "Sid": "AllowSSLRequestsOnly",
-          "Effect": "Deny",
-          "Principal": "*",
-          "Action": "s3:*",
-          "Resource": [
-              "arn:aws:s3:::${var.bucket_name}",
-              "arn:aws:s3:::${var.bucket_name}/*"
-          ],
-          "Condition": {
-              "Bool": {
-                  "aws:SecureTransport": "false"
-              }
-          }
-      }
-  ]
-}
-EOT 
+resource "aws_s3_bucket" "s3_bucket" {
+  bucket = var.s3_bucket_name
 
   tags = {
-    Name        = var.bucket_name
+    Name        = var.s3_bucket_name
     Environment = var.env
     System      = var.system
     Component   = var.app
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_encryption" {
+  bucket = aws_s3_bucket.s3_bucket.id
 
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
-resource "aws_s3_bucket_policy" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Id": "SSLPolicy",
-    "Statement": [
-        {
-            "Sid": "AllowSSLRequestsOnly",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::${var.bucket_name}",
-                "arn:aws:s3:::${var.bucket_name}/*"
-            ],
-            "Condition": {
-                "Bool": {
-                    "aws:SecureTransport": "false"
-                }
-            }
-        }
+data "aws_iam_policy_document" "s3_deny_insecure_transport" {
+  statement {
+    sid    = "AllowSSLRequestsOnly"
+    effect = "Deny"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions   = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${var.s3_bucket_name}",
+      "arn:aws:s3:::${var.s3_bucket_name}/*"
     ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 }
-POLICY
+
+resource "aws_s3_bucket_policy" "s3_bucket" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  policy = data.aws_iam_policy_document.s3_deny_insecure_transport.json
+}
+
+output "s3_bucket_arn" {
+  value = aws_s3_bucket.s3_bucket.arn
 }
