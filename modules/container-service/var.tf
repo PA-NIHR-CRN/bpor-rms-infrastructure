@@ -1,7 +1,6 @@
 variable "env" {
   description = "environment name"
   type        = string
-
 }
 variable "system" {
   type = string
@@ -10,19 +9,16 @@ variable "system" {
 variable "vpc_id" {
   description = "vpc id"
   type        = string
-
 }
 
 variable "ecs_subnets" {
   description = "list of subnets for ecs"
   type        = list(any)
-
 }
 
 variable "lb_subnets" {
   description = "list of subnets for lb"
   type        = list(any)
-
 }
 
 variable "account" {
@@ -32,11 +28,9 @@ variable "account" {
 
 }
 
-
 variable "container_name" {
   description = "container"
   type        = string
-
 }
 
 variable "ecs_cpu" {
@@ -48,8 +42,6 @@ variable "ecs_memory" {
 variable "image_url" {
   description = "container image url"
   type        = string
-
-
 }
 
 #env
@@ -64,13 +56,12 @@ variable "whitelist_ips" {
 }
 
 variable "domain_name" {
-
 }
 
 variable "validation_email" {
-
 }
 
 variable "app" {
-
 }
+
+variable "s3_bucket_arn" {}

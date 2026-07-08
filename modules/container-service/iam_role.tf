@@ -51,6 +51,18 @@ resource "aws_iam_role_policy" "task-execution-role-policy" {
         Effect   = "Allow"
         Resource = "*"
       },
+      {
+        Action = [
+          "s3:Get*",
+          "s3:List*",
+          "s3:Put*"
+        ],
+        Effect   = "Allow",
+        Resource = [
+            "${var.s3_bucket_arn}",
+            "${var.s3_bucket_arn}/*"
+        ]
+      },
     ]
   })
 }

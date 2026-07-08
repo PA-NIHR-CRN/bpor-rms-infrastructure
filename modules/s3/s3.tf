@@ -1,78 +1,91 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = var.bucket_name
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
-  policy = <<EOT
-{
-  "Version": "2012-10-17",
-  "Id": "SSLPolicy",
-  "Statement": [
-      {
-          "Sid": "AllowSSLRequestsOnly",
-          "Effect": "Deny",
-          "Principal": "*",
-          "Action": "s3:*",
-          "Resource": [
-              "arn:aws:s3:::${var.bucket_name}",
-              "arn:aws:s3:::${var.bucket_name}/*"
-          ],
-          "Condition": {
-              "Bool": {
-                  "aws:SecureTransport": "false"
-              }
-          }
-      }
-  ]
-}
-EOT 
+resource "aws_s3_bucket" "s3_bucket" {
+  bucket = var.s3_bucket_name
 
   tags = {
-    Name        = var.bucket_name
+    Name        = var.s3_bucket_name
     Environment = var.env
     System      = var.system
     Component   = var.app
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_encryption" {
+  bucket = aws_s3_bucket.s3_bucket.id
 
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
-resource "aws_s3_bucket_policy" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Id": "SSLPolicy",
-    "Statement": [
-        {
-            "Sid": "AllowSSLRequestsOnly",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::${var.bucket_name}",
-                "arn:aws:s3:::${var.bucket_name}/*"
-            ],
-            "Condition": {
-                "Bool": {
-                    "aws:SecureTransport": "false"
-                }
-            }
-        }
+data "aws_iam_policy_document" "s3_deny_insecure_transport" {
+  statement {
+    sid    = "AllowSSLRequestsOnly"
+    effect = "Deny"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions   = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${var.s3_bucket_name}",
+      "arn:aws:s3:::${var.s3_bucket_name}/*"
     ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 }
-POLICY
+
+data "aws_iam_policy_document" "s3_cross_account_read_access" {
+  statement {
+    sid = "AllowCrossAccountReadAccess"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = [
+        "arn:aws:iam::${var.bpor_acc_no}:root"
+      ]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.s3_bucket_name}",
+      "arn:aws:s3:::${var.s3_bucket_name}/*"
+    ]
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:PrincipalArn"
+      values   = ["arn:aws:iam::${var.bpor_acc_no}:role/service-role/${var.bpor_content_iam_role}"]
+    }
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["true"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "combined_s3_policy" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.s3_deny_insecure_transport.json,
+    data.aws_iam_policy_document.s3_cross_account_read_access.json
+  ]
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = var.s3_bucket_name
+  policy = data.aws_iam_policy_document.combined_s3_policy.json
+}
+
+output "s3_bucket_arn" {
+  value = aws_s3_bucket.s3_bucket.arn
 }
