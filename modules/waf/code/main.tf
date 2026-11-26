@@ -3,11 +3,15 @@
 #####
 resource "aws_wafv2_web_acl" "main" {
   count = var.enabled ? 1 : 0
-
   name  = var.name_prefix
   scope = var.scope
-
   description = var.description
+
+  lifecycle {
+    ignore_changes = [
+      rule
+    ]
+  }
 
   dynamic "custom_response_body" {
     for_each = var.custom_response_bodies
